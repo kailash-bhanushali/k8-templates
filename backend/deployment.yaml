@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-deployment
+  namespace: sample-backend
+  labels:
+    app:  sample-backend
+    type: back-end
+spec:
+  selector:
+    matchLabels:
+      type: back-end
+  replicas: 1
+  template:
+    metadata:
+      name: sample-backend-pod
+      labels:
+        app: sample-backend
+        type: back-end
+    spec:
+      containers:
+        - name: backend-container
+          image: kailash162/sample-backend:1.1
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+          envFrom:
+            - configMapRef:
+                name: config-backend
